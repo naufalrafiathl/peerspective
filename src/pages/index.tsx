@@ -1,115 +1,292 @@
 import Image from "next/image";
-import localFont from "next/font/local";
+import { useState, useEffect, ReactNode } from "react";
+import Link from "next/link";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+const questions = [
+  "Who is the most beautiful person in the circle?",
+  "Who are you most attracted to in this group?",
+  "Who would you want to go on a date with?",
+  "Who would you trust with your secrets?",
+  "Who would you want as your best friend?",
+  "Who has the most captivating smile?",
+  "Who has a mysterious aura about them?",
+  "Who would you want to switch lives with for a day?",
+  "Who would you call at 3 AM in a crisis?",
+  "Who seems to hold the deepest secrets?",
+  "Who do you think has the most interesting life story?",
+  "Who radiates the most positive energy?",
+  "Who would you want as your travel companion?",
+  "Who seems like they give the best advice?",
+  "Who has the most intriguing personality?",
+  "Who would you trust to keep your biggest secret?",
+  "Who would you want to be stranded on an island with?",
+  "Who has the most enchanting eyes?",
+  "Who seems like they have the most exciting future ahead?",
+  "Who would you want to share your happiest moments with?",
+  "Who has a presence that lights up the room?",
+  "Who would you trust with your phone unlocked?",
+  "Who seems like they understand you the most?",
+  "Who would you want to know all your thoughts?",
+  "Who has the most contagious laugh?"
+];
 
-export default function Home() {
+interface ModalProps {
+  show: boolean;
+  onClose?: () => void;
+  children: ReactNode;
+}
+
+const Modal: React.FC<ModalProps> = ({ show, children }) => {
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    if (show) {
+      setShouldRender(true);
+    } else {
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+      }, 300); // Same duration as the transition
+      return () => clearTimeout(timer);
+    }
+  }, [show]);
+
+  if (!shouldRender && !show) return null;
+
   return (
     <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
+      className={`fixed inset-0 transition-all duration-300 ease-in-out z-50
+        ${show ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
     >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/pages/index.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <div className={`absolute inset-0 bg-black transition-opacity duration-300 backdrop-blur-sm
+        ${show ? 'bg-opacity-40' : 'bg-opacity-0'}`} />
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div
+          className={`bg-white rounded-2xl p-8 max-w-md w-full shadow-xl 
+            transform transition-all duration-300 ease-in-out
+            ${show ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+        >
+          {children}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+      </div>
+    </div>
+  );
+};
+
+function Bisik() {
+  const [currentQuestion, setCurrentQuestion] = useState("");
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
+  const [showHandoverModal, setShowHandoverModal] = useState(false);
+  const [showCoinModal, setShowCoinModal] = useState(false);
+  const [showResultModal, setShowResultModal] = useState(false);
+  const [coinResult, setCoinResult] = useState<boolean | null>(null);
+  const [isFlipping, setIsFlipping] = useState(false);
+
+  const drawQuestion = () => {
+    const randomIndex = Math.floor(Math.random() * questions.length);
+    setCurrentQuestion(questions[randomIndex]);
+    setShowQuestionModal(true);
+  };
+
+  const handlePointPerson = () => {
+    setShowQuestionModal(false);
+    setTimeout(() => setShowHandoverModal(true), 300);
+  };
+
+  const startCoinFlip = () => {
+    setShowHandoverModal(false);
+    setTimeout(() => {
+      setShowCoinModal(true);
+      setIsFlipping(true);
+      
+      setTimeout(() => {
+        const result = Math.random() < 0.5;
+        setCoinResult(result);
+        setIsFlipping(false);
+      }, 2000);
+    }, 300);
+  };
+
+  const handleCoinResult = () => {
+    if (coinResult) {
+      setShowCoinModal(false);
+      setTimeout(() => setShowResultModal(true), 300);
+    } else {
+      resetGame();
+    }
+  };
+
+  const resetGame = () => {
+    setShowQuestionModal(false);
+    setShowHandoverModal(false);
+    setShowCoinModal(false);
+    setShowResultModal(false);
+    setCoinResult(null);
+    setIsFlipping(false);
+    setCurrentQuestion("");
+  };
+
+  const CoinIcon: React.FC = () => (
+    <svg
+      className="w-16 h-16"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="12" cy="12" r="6" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto px-4 py-12">
+        <Link href="/">
+          <div className="mb-12 w-16 mx-auto cursor-pointer">
+            <Image
+              className="transform hover:scale-105 transition-transform duration-300"
+              alt="logo peerspective"
+              width={64}
+              height={64}
+              src="/logo.png"
+              priority
+            />
+          </div>
+        </Link>
+
+        <div className="text-center mb-16">
           <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            className="mx-auto mb-6"
+            alt="bisik logo"
+            width={200}
+            height={200}
+            src="/bisik.png"
+            priority
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <h1 className="text-3xl font-light tracking-wide text-gray-700">
+            BISIK
+          </h1>
+        </div>
+
+        <div className="max-w-md mx-auto">
+          <button
+            onClick={drawQuestion}
+            className="w-full bg-white text-gray-700 py-4 px-6 rounded-xl text-lg 
+                     font-sans font-normal
+                     border border-gray-200 hover:border-gray-300 
+                     transform hover:translate-y-[-2px] transition-all duration-300
+                     focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-opacity-50
+                     shadow-sm hover:shadow-md"
+          >
+            Begin the Whispers
+          </button>
+        </div>
+
+        <Modal show={showQuestionModal}>
+          <h3 className="text-xl font-sans text-gray-900 mb-6">
+            The BISIK awaits...
+          </h3>
+          <div className="p-6 bg-gray-50 rounded-xl">
+            <p className="text-gray-600 font-sans mb-3">
+              Choose to the person!
+            </p>
+            <p className="text-xl font-sans text-gray-900">
+              {currentQuestion}
+            </p>
+          </div>
+          <p className="font-sans mt-3 text-center">
+            Now, press next and hand over the device to that person!
+          </p>
+          <button
+            onClick={handlePointPerson}
+            className="mt-3 w-full bg-white text-gray-700 py-4 px-6 rounded-xl
+                     font-sans
+                     border border-gray-200 hover:border-gray-300
+                     transform hover:translate-y-[-2px] transition-all duration-300"
+          >
+            Okay.
+          </button>
+        </Modal>
+
+        <Modal show={showHandoverModal}>
+          <h3 className="text-2xl font-sans text-gray-900 mb-6">
+            Someone has chosen you...
+          </h3>
+          <div className="p-6 bg-gray-50 rounded-xl mb-6">
+            <p className="text-gray-600 font-sans">
+              A secret question awaits. Will you dare to discover what they
+              think about you?
+            </p>
+          </div>
+          <button
+            onClick={startCoinFlip}
+            className="w-full bg-white text-gray-700 py-4 px-6 rounded-xl
+                     font-sans
+                     border border-gray-200 hover:border-gray-300
+                     transform hover:translate-y-[-2px] transition-all duration-300"
+          >
+            Unravel it
+          </button>
+        </Modal>
+
+        <Modal show={showCoinModal}>
+          <div
+            className={`text-gray-700 mx-auto mb-6 ${
+              isFlipping ? "animate-spin" : ""
+            }`}
+          >
+            {isFlipping ? (
+              <CoinIcon />
+            ) : coinResult === null ? (
+              <CoinIcon />
+            ) : coinResult ? null : null}
+          </div>
+          <h3 className="text-2xl font-sans text-gray-900 mb-6">
+            {isFlipping
+              ? "Fortune spins... Destiny unfolds"
+              : coinResult === null
+              ? "Ready to flip!"
+              : coinResult
+              ? "The stars align!"
+              : "You will never know.."}
+          </h3>
+          {!isFlipping && coinResult !== null && (
+            <button
+              onClick={handleCoinResult}
+              className="mt-6 w-full bg-white text-gray-700 py-4 px-6 rounded-xl
+                       font-sans
+                       border border-gray-200 hover:border-gray-300
+                       transform hover:translate-y-[-2px] transition-all duration-300"
+            >
+              {coinResult ? "Show Question" : "Play Again"}
+            </button>
+          )}
+        </Modal>
+
+        <Modal show={showResultModal}>
+          <h3 className="text-xl font-sans text-gray-900 mb-6">
+            The stars aligned..
+          </h3>
+          <div className="p-6 bg-gray-50 rounded-xl">
+            <p className="text-gray-600 font-sans mb-3">
+              The Question Was:
+            </p>
+            <p className="text-xl font-sans text-gray-900">
+              {currentQuestion}
+            </p>
+          </div>
+          <button
+            onClick={resetGame}
+            className="mt-8 w-full bg-white text-gray-700 py-4 px-6 rounded-xl
+                     font-sans
+                     border border-gray-200 hover:border-gray-300
+                     transform hover:translate-y-[-2px] transition-all duration-300"
+          >
+            Play Again
+          </button>
+        </Modal>
+      </div>
     </div>
   );
 }
+
+export default Bisik;

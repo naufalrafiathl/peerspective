@@ -8,6 +8,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        opsilon: ['Opsilon', 'sans-serif'],
+        texgyreheros: ['TexGyreHeros', 'sans-serif'],
+        texgyreheroscn: ['TexGyreHerosCn', 'sans-serif'],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
@@ -16,4 +21,5 @@ const config: Config = {
   },
   plugins: [],
 };
+
 export default config;
