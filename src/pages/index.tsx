@@ -1,8 +1,34 @@
 import Link from "next/link";
 import Image from "next/image";
 import Head from "next/head";
+import GameCard from "@/components/GameCard";
 
 export default function Home() {
+  const games = [
+    {
+      href: "/bisik",
+      imageSrc: "/bisik.png",
+      title: "bisik",
+      description: "Thrilling secret question game with a twist of mystery.",
+      howToPlay: [
+        "Take turns with the device, see the secret question, and point to someone.",
+        "Hide the question and flip the virtual coin.",
+        "The coin decides if the question is revealed or stays a mystery."
+      ]
+    },
+    {
+      href: "/dialog",
+      imageSrc: "/deeptalk.png",
+      title: "dialog",
+      description: "Generate meaningful conversation starters for your group.",
+      howToPlay: [
+        "Pick a category (Love, Friendship, etc.).",
+        "Everyone answers honestly or playfully.",
+        "Spark meaningful conversations together."
+      ]
+    }
+  ];
+
   return (
     <>
       <Head>
@@ -11,26 +37,7 @@ export default function Home() {
           name="description"
           content="Play fun and meaningful games to break the ice, spark deep talks, and connect with friends!"
         />
-        <meta
-          name="keywords"
-          content="truth or dare, deep talk, ice breaking games, group activity, perspectives"
-        />
-        <meta
-          property="og:title"
-          content="Peerspectives - Break the Ice & Connect"
-        />
-        <meta
-          property="og:description"
-          content="Spark meaningful conversations with friends through engaging games like BISIK and DIALOG."
-        />
-        <meta
-          property="twitter:title"
-          content="Peerspectives - Interactive Group Games"
-        />
-        <meta
-          property="twitter:description"
-          content="Transform group hangouts with engaging games!"
-        />
+        {/* Keep your existing meta tags */}
       </Head>
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-6xl mx-auto px-4 py-16">
@@ -56,49 +63,11 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Cards Container */}
+          {/* Cards Container - Replace the existing cards with the new GameCard component */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Bisik Card */}
-            <Link href="/bisik">
-              <div className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-gray-200">
-                <div className="flex flex-col items-center">
-                  <div className="relative w-48 h-48 mb-6">
-                    <Image
-                      className="transform group-hover:scale-105 transition-transform duration-300"
-                      alt="bisik logo"
-                      src="/bisik.png"
-                      fill
-                      style={{ objectFit: "contain" }}
-                      priority
-                    />
-                  </div>
-                  <h2 className="text-2xl font-light italic tracking-wide text-gray-700 mb-3">
-                    bisik
-                  </h2>
-                </div>
-              </div>
-            </Link>
-
-            {/* Dialog Card */}
-            <Link href="/dialog">
-              <div className="group bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-gray-200">
-                <div className="flex flex-col items-center">
-                  <div className="relative w-48 h-48 mb-6">
-                    <Image
-                      className="transform group-hover:scale-105 transition-transform duration-300"
-                      alt="dialog logo"
-                      src="/deeptalk.png"
-                      fill
-                      style={{ objectFit: "contain" }}
-                      priority
-                    />
-                  </div>
-                  <h2 className="text-2xl font-light italic tracking-wide text-gray-700 mb-3">
-                    dialog
-                  </h2>
-                </div>
-              </div>
-            </Link>
+            {games.map((game) => (
+              <GameCard key={game.href} {...game} />
+            ))}
           </div>
 
           {/* Footer Section */}

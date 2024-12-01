@@ -53,13 +53,14 @@ function Bisik() {
   };
 
   const startCoinFlip = () => {
+    const result = Math.random() < 0.5;
+    setCoinResult(result);  // Set result first
     setShowHandoverModal(false);
     setShowCoinModal(true);
-    setIsFlipping(true);
-
+    setIsFlipping(true);  // Start flipping after result is set
+  
+    // End flip animation after 2 seconds
     setTimeout(() => {
-      const result = Math.random() < 0.5;
-      setCoinResult(result);
       setIsFlipping(false);
     }, 2000);
   };
