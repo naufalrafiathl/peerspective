@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import Head from 'next/head'
+
 
 const questions = {
   love: [
@@ -62,47 +64,79 @@ export default function Dialog() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 py-12">
-        {/* Header */}
-        <Link href="/">
-          <div className="mb-12 w-16 mx-auto cursor-pointer">
+    <>
+      <Head>
+        <title>DIALOG - Conversation Starter Game | Peerspectives</title>
+        <meta
+          name="description"
+          content="Generate ice-breaking questions for meaningful conversations about Love, Friendship, and more!"
+        />
+        <meta
+          name="keywords"
+          content="ice breaking questions, conversation starters, deep talks, love questions, friendship questions, life questions"
+        />
+
+        {/* Open Graph */}
+        <meta
+          property="og:title"
+          content="DIALOG - Conversation Starter Game | Peerspectives"
+        />
+        <meta
+          property="og:description"
+          content="Start meaningful conversations with friends through engaging questions!"
+        />
+
+        {/* Twitter */}
+        <meta
+          property="twitter:title"
+          content="DIALOG - Conversation Starter Game | Peerspectives"
+        />
+        <meta
+          property="twitter:description"
+          content="Start meaningful conversations with friends through engaging questions!"
+        />
+      </Head>
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          {/* Header */}
+          <Link href="/">
+            <div className="mb-12 w-16 mx-auto cursor-pointer">
+              <Image
+                className="transform hover:scale-105 transition-transform duration-300"
+                alt="logo peerspective"
+                width="64"
+                height="64"
+                src="/logo.png"
+                priority
+              />
+            </div>
+          </Link>
+
+          {/* Title Section */}
+          <div className="text-center mb-16">
             <Image
-              className="transform hover:scale-105 transition-transform duration-300"
-              alt="logo peerspective"
-              width="64"
-              height="64"
-              src="/logo.png"
+              className="mx-auto mb-6"
+              alt="dialog logo"
+              width="200"
+              height="200"
+              src="/deeptalk.png"
               priority
             />
+            <h1 className="text-3xl font-light tracking-wide text-gray-700">
+              DIALOG
+            </h1>
           </div>
-        </Link>
 
-        {/* Title Section */}
-        <div className="text-center mb-16">
-          <Image
-            className="mx-auto mb-6"
-            alt="dialog logo"
-            width="200"
-            height="200"
-            src="/deeptalk.png"
-            priority
-          />
-          <h1 className="text-3xl font-light tracking-wide text-gray-700">
-            DIALOG
-          </h1>
-        </div>
-
-        {/* Category Selection */}
-        <div className="max-w-md mx-auto mb-8">
-          <div className="grid grid-cols-3 gap-4">
-            {Object.keys(questions).map((category) => (
-              <button
-                key={category}
-                onClick={() =>
-                  selectCategory(category as keyof typeof questions)
-                }
-                className={`py-3 px-4 rounded-xl text-lg font-light
+          {/* Category Selection */}
+          <div className="max-w-md mx-auto mb-8">
+            <div className="grid grid-cols-3 gap-4">
+              {Object.keys(questions).map((category) => (
+                <button
+                  key={category}
+                  onClick={() =>
+                    selectCategory(category as keyof typeof questions)
+                  }
+                  className={`py-3 px-4 rounded-xl text-lg font-light
                           transition-all duration-300 
                           ${
                             selectedCategory === category
@@ -111,40 +145,41 @@ export default function Dialog() {
                           }
                           border border-gray-200
                           focus:outline-none focus:ring-2 focus:ring-gray-200`}
-              >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Question Display */}
-        {isQuestionVisible && (
-          <div className="max-w-md mx-auto my-8 font-sans">
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-              <p className="text-xl text-gray-700 text-center font-light">
-                {currentQuestion}
-              </p>
+                >
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </button>
+              ))}
             </div>
           </div>
-        )}
 
-        {/* Generate Button */}
-        {selectedCategory && (
-          <div className="max-w-md mx-auto font-sans">
-            <button
-              onClick={generateQuestion}
-              className="w-full bg-white text-gray-700 py-4 px-6 rounded-xl text-lg 
+          {/* Question Display */}
+          {isQuestionVisible && (
+            <div className="max-w-md mx-auto my-8 font-sans">
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <p className="text-xl text-gray-700 text-center font-light">
+                  {currentQuestion}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Generate Button */}
+          {selectedCategory && (
+            <div className="max-w-md mx-auto font-sans">
+              <button
+                onClick={generateQuestion}
+                className="w-full bg-white text-gray-700 py-4 px-6 rounded-xl text-lg 
                        font-light
                        border border-gray-200 hover:border-gray-300 
                        transform hover:translate-y-[-2px] transition-all duration-300
                        shadow-sm hover:shadow-md"
-            >
-              Generate Question
-            </button>
-          </div>
-        )}
+              >
+                Generate Question
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
