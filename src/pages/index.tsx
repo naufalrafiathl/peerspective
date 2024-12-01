@@ -13,8 +13,8 @@ export default function Home() {
       howToPlay: [
         "Take turns with the device, see the secret question, and point to someone.",
         "Hide the question and flip the virtual coin.",
-        "The coin decides if the question is revealed or stays a mystery."
-      ]
+        "The coin decides if the question is revealed or stays a mystery.",
+      ],
     },
     {
       href: "/dialog",
@@ -24,9 +24,9 @@ export default function Home() {
       howToPlay: [
         "Pick a category (Love, Friendship, etc.).",
         "Everyone answers honestly or playfully.",
-        "Spark meaningful conversations together."
-      ]
-    }
+        "Spark meaningful conversations together.",
+      ],
+    },
   ];
 
   return (
@@ -71,8 +71,16 @@ export default function Home() {
           </div>
 
           {/* Footer Section */}
-          <div className="text-center mt-16 text-gray-400 font-sans">
-            <p className="text-sm">RXLABS. 2024</p>
+          <div className="text-center mt-16 space-y-3">
+            <p className="text-gray-400 font-sans text-sm">RXLABS. 2024</p>
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfvtaDePJi5Tx6xL4oaqwQ7HR21HtEmasxDfD-RipVnqILwaA/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white px-4 py-2 rounded-lg text-gray-600 hover:text-gray-800 text-sm font-sans inline-block transition-all duration-200 border border-gray-200 hover:border-gray-300 hover:shadow-sm"
+            >
+              Share your feedback
+            </a>
           </div>
         </div>
       </div>

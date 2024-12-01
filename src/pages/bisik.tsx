@@ -54,11 +54,11 @@ function Bisik() {
 
   const startCoinFlip = () => {
     const result = Math.random() < 0.5;
-    setCoinResult(result);  // Set result first
+    setCoinResult(result); // Set result first
     setShowHandoverModal(false);
     setShowCoinModal(true);
-    setIsFlipping(true);  // Start flipping after result is set
-  
+    setIsFlipping(true); // Start flipping after result is set
+
     // End flip animation after 2 seconds
     setTimeout(() => {
       setIsFlipping(false);
@@ -280,6 +280,16 @@ function Bisik() {
               </div>
             </div>
           )}
+        </div>
+        <div className="text-center mt-16 space-y-3">
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfvtaDePJi5Tx6xL4oaqwQ7HR21HtEmasxDfD-RipVnqILwaA/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white px-4 py-2 rounded-lg text-gray-600 hover:text-gray-800 text-sm font-sans inline-block transition-all duration-200 border border-gray-200 hover:border-gray-300 hover:shadow-sm"
+          >
+            Share your feedback
+          </a>
         </div>
       </div>
     </>

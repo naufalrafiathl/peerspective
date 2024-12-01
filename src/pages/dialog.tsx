@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
-import Head from 'next/head'
-
+import Head from "next/head";
 
 const questions = {
   love: [
@@ -178,6 +177,16 @@ export default function Dialog() {
               </button>
             </div>
           )}
+        </div>
+        <div className="text-center mt-16 space-y-3">
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfvtaDePJi5Tx6xL4oaqwQ7HR21HtEmasxDfD-RipVnqILwaA/viewform"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white px-4 py-2 rounded-lg text-gray-600 hover:text-gray-800 text-sm font-sans inline-block transition-all duration-200 border border-gray-200 hover:border-gray-300 hover:shadow-sm"
+          >
+            Share your feedback
+          </a>
         </div>
       </div>
     </>
