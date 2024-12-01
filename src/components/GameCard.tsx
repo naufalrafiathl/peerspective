@@ -92,10 +92,7 @@ const GameCard: FC<GameCardProps> = ({
             className="bg-white text-gray-700 px-4 py-2 rounded-lg font-sans 
                      hover:bg-gray-100 transition-colors duration-200 flex items-center gap-2"
           >
-            Play Now
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="5 3 19 12 5 21 5 3"/>
-            </svg>
+            Play Now!
           </button>
         </div>
 
