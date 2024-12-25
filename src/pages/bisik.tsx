@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import CoinFlip from "@/components/CoinFlip";
@@ -58,11 +58,11 @@ const questions: Record<CategoryType, string[]> = {
     "Which friend here would you NOT want to be roommates with?",
     "Who do you think would be the first to snitch on the group?",
     "Which friend here has the most tea about everyone else?",
-    "Who would you suspect has a secret OnlyFans account?",
+    "Who here would most likely have a secret OnlyFans account?",
     "Who would you trust to plan your bachelor/bachelorette party?",
     "Which friend here would you want as your lawyer in court?",
     "Who here has enough dirt on you to absolutely destroy your dating life?",
-  ]
+  ],
 };
 
 function Bisik() {
@@ -73,13 +73,65 @@ function Bisik() {
   const [showResultModal, setShowResultModal] = useState(false);
   const [coinResult, setCoinResult] = useState<boolean | null>(null);
   const [isFlipping, setIsFlipping] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(
+    null
+  );
+
+  // Add state for tracking remaining questions
+  const [remainingQuestions, setRemainingQuestions] = useState<
+    Record<CategoryType, string[]>
+  >({
+    general: [],
+    friendship: [],
+  });
+
+  // Initialize or reset questions for a category
+  const initializeCategoryQuestions = useCallback((category: CategoryType) => {
+    // Fisher-Yates shuffle algorithm
+    const shuffleArray = (array: string[]) => {
+      const newArray = [...array];
+      for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+      }
+      return newArray;
+    };
+
+    setRemainingQuestions((prev) => ({
+      ...prev,
+      [category]: shuffleArray(questions[category]),
+    }));
+  }, []);
+
+  // Handle category selection
+  const handleCategorySelect = (category: CategoryType) => {
+    setSelectedCategory(category);
+    if (remainingQuestions[category].length === 0) {
+      initializeCategoryQuestions(category);
+    }
+  };
 
   const drawQuestion = () => {
     if (!selectedCategory) return;
-    const categoryQuestions = questions[selectedCategory];
-    const randomIndex = Math.floor(Math.random() * categoryQuestions.length);
-    setCurrentQuestion(categoryQuestions[randomIndex]);
+
+    let currentRemaining = remainingQuestions[selectedCategory];
+
+    // If we've used all questions, reshuffle
+    if (currentRemaining.length === 0) {
+      initializeCategoryQuestions(selectedCategory);
+      currentRemaining = remainingQuestions[selectedCategory];
+    }
+
+    // Take the next question from the shuffled array
+    const nextQuestion = currentRemaining[currentRemaining.length - 1];
+    const updatedRemaining = currentRemaining.slice(0, -1);
+
+    setRemainingQuestions((prev) => ({
+      ...prev,
+      [selectedCategory]: updatedRemaining,
+    }));
+
+    setCurrentQuestion(nextQuestion);
     setShowQuestionModal(true);
   };
 
@@ -184,7 +236,7 @@ function Bisik() {
               {(Object.keys(questions) as CategoryType[]).map((category) => (
                 <button
                   key={category}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => handleCategorySelect(category)}
                   className={`py-3 px-4 rounded-xl text-lg font-light
                           transition-all duration-300 
                           ${
@@ -325,7 +377,7 @@ function Bisik() {
             </div>
           )}
         </div>
-        
+
         <div className="text-center mt-16 space-y-3">
           <a
             href="https://docs.google.com/forms/d/e/1FAIpQLSfvtaDePJi5Tx6xL4oaqwQ7HR21HtEmasxDfD-RipVnqILwaA/viewform"
