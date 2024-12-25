@@ -4,33 +4,66 @@ import Link from "next/link";
 import Head from "next/head";
 import CoinFlip from "@/components/CoinFlip";
 
-const questions = [
-  "Who is the most beautiful person in the circle?",
-  "Who are you most attracted to in this group?",
-  "Who would you want to go on a date with?",
-  "Who would you trust with your secrets?",
-  "Who would you want as your best friend?",
-  "Who has the most captivating smile?",
-  "Who has a mysterious aura about them?",
-  "Who would you want to switch lives with for a day?",
-  "Who would you call at 3 AM in a crisis?",
-  "Who seems to hold the deepest secrets?",
-  "Who do you think has the most interesting life story?",
-  "Who radiates the most positive energy?",
-  "Who would you want as your travel companion?",
-  "Who seems like they give the best advice?",
-  "Who has the most intriguing personality?",
-  "Who would you trust to keep your biggest secret?",
-  "Who would you want to be stranded on an island with?",
-  "Who has the most enchanting eyes?",
-  "Who seems like they have the most exciting future ahead?",
-  "Who would you want to share your happiest moments with?",
-  "Who has a presence that lights up the room?",
-  "Who would you trust with your phone unlocked?",
-  "Who seems like they understand you the most?",
-  "Who would you want to know all your thoughts?",
-  "Who has the most contagious laugh?",
-];
+type CategoryType = "general" | "friendship";
+
+const questions: Record<CategoryType, string[]> = {
+  general: [
+    "Who is the most beautiful person in the circle?",
+    "Who are you most attracted to in this group?",
+    "Who would you want to go on a date with?",
+    "Who would you trust with your secrets?",
+    "Who would you want as your best friend?",
+    "Who has the most captivating smile?",
+    "Who has a mysterious aura about them?",
+    "Who would you want to switch lives with for a day?",
+    "Who would you call at 3 AM in a crisis?",
+    "Who seems to hold the deepest secrets?",
+    "Who do you think has the most interesting life story?",
+    "Who radiates the most positive energy?",
+    "Who would you want as your travel companion?",
+    "Who seems like they give the best advice?",
+    "Who has the most intriguing personality?",
+    "Who would you trust to keep your biggest secret?",
+    "Who would you want to be stranded on an island with?",
+    "Who has the most enchanting eyes?",
+    "Who seems like they have the most exciting future ahead?",
+    "Who would you want to share your happiest moments with?",
+    "Who has a presence that lights up the room?",
+    "Who would you trust with your phone unlocked?",
+    "Who seems like they understand you the most?",
+    "Who would you want to know all your thoughts?",
+    "Who has the most contagious laugh?",
+  ],
+  friendship: [
+    "Who's got the most tea about everyone's relationship histories?",
+    "Who here knows about that one wild night you pretend never happened?",
+    "Who's most likely to have dated one of our ex but never mentioned it?",
+    "Who would be the first to sell everyone's secrets for a good deal?",
+    "Who would accidentally leak the group chat screenshots to the worst possible person?",
+    "Who's most likely to have a secret dating app profile while in a relationship?",
+    "Who here would be the worst at keeping their relationship drama private?",
+    "Who probably still remembers that super embarrassing thing you did?",
+    "Who do you think has the spiciest screenshots in their hidden folder?",
+    "Who's most likely to have a hidden folder of cringy old social media posts of everyone?",
+    "Who do you think has changed the most since you first met them?",
+    "Who would you trust to keep your darkest secret?",
+    "Which friend here do you think secretly judges your life choices?",
+    "Who would you pick to help you hide a body? (Hypothetically!)",
+    "Which friend here knows your most embarrassing story?",
+    "Who here would you trust with your phone unlocked for a whole day?",
+    "Which friend's search history would probably shock you the most?",
+    "Who here would you nominate as the group's chaos bringer?",
+    "Which friend do you think talks about you the most behind your back?",
+    "Who would you trust to write your dating app bio?",
+    "Which friend here would you NOT want to be roommates with?",
+    "Who do you think would be the first to snitch on the group?",
+    "Which friend here has the most tea about everyone else?",
+    "Who would you suspect has a secret OnlyFans account?",
+    "Who would you trust to plan your bachelor/bachelorette party?",
+    "Which friend here would you want as your lawyer in court?",
+    "Who here has enough dirt on you to absolutely destroy your dating life?",
+  ]
+};
 
 function Bisik() {
   const [currentQuestion, setCurrentQuestion] = useState("");
@@ -40,10 +73,13 @@ function Bisik() {
   const [showResultModal, setShowResultModal] = useState(false);
   const [coinResult, setCoinResult] = useState<boolean | null>(null);
   const [isFlipping, setIsFlipping] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(null);
 
   const drawQuestion = () => {
-    const randomIndex = Math.floor(Math.random() * questions.length);
-    setCurrentQuestion(questions[randomIndex]);
+    if (!selectedCategory) return;
+    const categoryQuestions = questions[selectedCategory];
+    const randomIndex = Math.floor(Math.random() * categoryQuestions.length);
+    setCurrentQuestion(categoryQuestions[randomIndex]);
     setShowQuestionModal(true);
   };
 
@@ -54,12 +90,11 @@ function Bisik() {
 
   const startCoinFlip = () => {
     const result = Math.random() < 0.5;
-    setCoinResult(result); // Set result first
+    setCoinResult(result);
     setShowHandoverModal(false);
     setShowCoinModal(true);
-    setIsFlipping(true); // Start flipping after result is set
+    setIsFlipping(true);
 
-    // End flip animation after 2 seconds
     setTimeout(() => {
       setIsFlipping(false);
     }, 2000);
@@ -83,18 +118,6 @@ function Bisik() {
     setCoinResult(null);
     setIsFlipping(false);
   };
-
-  const CoinIcon = () => (
-    <svg
-      className="w-16 h-16"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
-      <circle cx="12" cy="12" r="6" stroke="currentColor" strokeWidth="1.5" />
-    </svg>
-  );
 
   return (
     <>
@@ -155,20 +178,45 @@ function Bisik() {
             </h1>
           </div>
 
-          <div className="max-w-md mx-auto">
-            <button
-              onClick={drawQuestion}
-              className="w-full bg-white text-gray-700 py-4 px-6 rounded-xl text-lg 
-                     font-sans font-normal
-                     border border-gray-200 hover:border-gray-300 
-                     transform hover:translate-y-[-2px] transition-all duration-300
-                     focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-opacity-50
-                     shadow-sm hover:shadow-md"
-            >
-              Begin the Whispers{" "}
-            </button>
+          {/* Category Selection */}
+          <div className="max-w-md mx-auto mb-8">
+            <div className="grid grid-cols-2 gap-4">
+              {(Object.keys(questions) as CategoryType[]).map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`py-3 px-4 rounded-xl text-lg font-light
+                          transition-all duration-300 
+                          ${
+                            selectedCategory === category
+                              ? "bg-gray-700 text-white"
+                              : "bg-white text-gray-700 hover:bg-gray-100"
+                          }
+                          border border-gray-200
+                          focus:outline-none focus:ring-2 focus:ring-gray-200`}
+                >
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </button>
+              ))}
+            </div>
           </div>
 
+          {/* Start Button */}
+          {selectedCategory && (
+            <div className="max-w-md mx-auto">
+              <button
+                onClick={drawQuestion}
+                className="w-full bg-white text-gray-700 py-4 px-6 rounded-xl text-lg 
+                       font-light border border-gray-200 hover:border-gray-300 
+                       transform hover:translate-y-[-2px] transition-all duration-300
+                       shadow-sm hover:shadow-md"
+              >
+                Begin the Whispers
+              </button>
+            </div>
+          )}
+
+          {/* Modals */}
           {showQuestionModal && (
             <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center p-4 z-50">
               <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-xl transform transition-all">
@@ -189,11 +237,10 @@ function Bisik() {
                 <button
                   onClick={handlePointPerson}
                   className="mt-3 w-full bg-white text-gray-700 py-4 px-6 rounded-xl
-                         font-sans
-                         border border-gray-200 hover:border-gray-300
+                         font-sans border border-gray-200 hover:border-gray-300
                          transform hover:translate-y-[-2px] transition-all duration-300"
                 >
-                  Okay.
+                  Next
                 </button>
               </div>
             </div>
@@ -214,9 +261,8 @@ function Bisik() {
                 <button
                   onClick={startCoinFlip}
                   className="w-full bg-white text-gray-700 py-4 px-6 rounded-xl
-                 font-sans
-                 border border-gray-200 hover:border-gray-300
-                 transform hover:translate-y-[-2px] transition-all duration-300"
+                         font-sans border border-gray-200 hover:border-gray-300
+                         transform hover:translate-y-[-2px] transition-all duration-300"
                 >
                   Unravel it
                 </button>
@@ -243,8 +289,7 @@ function Bisik() {
                   <button
                     onClick={handleCoinResult}
                     className="mt-6 w-full bg-white text-gray-700 py-4 px-6 rounded-xl
-                           font-sans
-                           border border-gray-200 hover:border-gray-300
+                           font-sans border border-gray-200 hover:border-gray-300
                            transform hover:translate-y-[-2px] transition-all duration-300"
                   >
                     {coinResult ? "Show Question" : "Play Again"}
@@ -271,8 +316,7 @@ function Bisik() {
                 <button
                   onClick={resetGame}
                   className="mt-8 w-full bg-white text-gray-700 py-4 px-6 rounded-xl
-                         font-sans
-                         border border-gray-200 hover:border-gray-300
+                         font-sans border border-gray-200 hover:border-gray-300
                          transform hover:translate-y-[-2px] transition-all duration-300"
                 >
                   Play Again
@@ -281,6 +325,7 @@ function Bisik() {
             </div>
           )}
         </div>
+        
         <div className="text-center mt-16 space-y-3">
           <a
             href="https://docs.google.com/forms/d/e/1FAIpQLSfvtaDePJi5Tx6xL4oaqwQ7HR21HtEmasxDfD-RipVnqILwaA/viewform"

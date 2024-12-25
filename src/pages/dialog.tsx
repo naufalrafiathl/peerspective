@@ -2,64 +2,109 @@ import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
+import QuestionCard from "@/components/QuestionCard";
 
-const questions = {
+// Define types for our questions structure
+type CategoryType = "love" | "friendship" | "life";
+
+type QuestionsType = {
+  [K in CategoryType]: string[];
+};
+
+const questions: QuestionsType = {
   love: [
-    "What's your definition of true love?",
-    "How has your idea of love evolved over time?",
-    "What's the most meaningful romantic gesture you've experienced?",
-    "What role does vulnerability play in love?",
+    "Do you believe in love at first sight? Why or why not?",
+    "What's the most random thing that ever made you fall for someone?",
+    "What's the most toxic thing you've done in love?",
+    "What is your ex's version of that break up?",
     "How do you maintain independence in a relationship?",
     "What's your love language and how does it affect your relationships?",
-    "What's a relationship deal-breaker for you?",
+    "You are on a date - What's the one thing that the other person can do, that can throw you off right away?",
     "How has your family influenced your view of love?",
-    "What's the hardest lesson you've learned about love?",
-    "How do you balance personal growth with romantic commitment?",
   ],
   friendship: [
-    "What qualities do you value most in a friend?",
-    "How do you maintain long-term friendships?",
-    "What's the most meaningful thing a friend has done for you?",
-    "How do you handle conflicts with close friends?",
-    "What role does trust play in your friendships?",
-    "How do you balance giving and receiving in friendships?",
-    "What makes someone a best friend versus a casual friend?",
-    "How do your friendships help you grow as a person?",
-    "What's the hardest part about making new friends as an adult?",
-    "How do you show up for friends during difficult times?",
+    "When did you feel closest to me in our friendship, and what made it special?",
+    "If you could relive one memory from our time together, which one would it be and why?",
+    "What's the one thing about our friendship that you never want to lose?",
+    "What was your first impression of me, and did it change?",
+    "Is there a moment early on when you knew we'd get along?",
+    "What's been your favorite moment with us?",
+    "What's one thing you want to do together that we haven't done yet?",
+    "What's one thing you've learned about me that you didn't expect?",
+    "What is something about me that inspires you?",
+    "What's something you admire about me that I should know?",
   ],
-  general: [
+  life: [
+    "If I point a gun to your head, what would be your last words?",
+    "What's the hardest truth you've ever had to accept?",
+    "What's the most challenging thing you've had to let go of in your life?",
+    "What's a simple question you've been trying to answer your whole life - But failed to do so?",
+    "What's one question you wish someone would ask you but never has?",
+    "If you could see yourself through someone else's eyes, who would you choose and why?",
+    "What pain are you carrying that no one knows about?",
+    "What dream did you give up on and why?",
+    "Why is you, you?",
+    "What do you love most about yourself?",
+    "If you could teach the entire world just one concept, what would it be?",
+    "What are you looking forward to this week?",
+    "What is your idea of happiness?",
     "What's a belief you held strongly and later changed?",
-    "How do you want to be remembered?",
-    "What's the most important lesson life has taught you?",
     "What does success mean to you?",
     "How do you handle uncertainty in life?",
     "What's a fear you'd like to overcome?",
-    "What brings you genuine joy?",
     "How do you stay true to yourself in difficult situations?",
     "What's a dream you've never told anyone about?",
-    "How do you define purpose in life?",
   ],
 };
 
 export default function Dialog() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryType | null>(
+    null
+  );
   const [currentQuestion, setCurrentQuestion] = useState<string>("");
-  const [isQuestionVisible, setIsQuestionVisible] = useState(false);
+  const [isQuestionVisible, setIsQuestionVisible] = useState<boolean>(false);
+  const [remainingQuestions, setRemainingQuestions] = useState<{
+    [K in CategoryType]?: string[];
+  }>({});
 
-  const selectCategory = (category: keyof typeof questions) => {
+  const selectCategory = (category: CategoryType) => {
     setSelectedCategory(category);
     setIsQuestionVisible(false);
+    // Initialize or reset the remaining questions for the selected category
+    setRemainingQuestions((prev) => ({
+      ...prev,
+      [category]: [...questions[category]],
+    }));
   };
 
   const generateQuestion = () => {
-    if (selectedCategory) {
-      const categoryQuestions =
-        questions[selectedCategory as keyof typeof questions];
-      const randomIndex = Math.floor(Math.random() * categoryQuestions.length);
-      setCurrentQuestion(categoryQuestions[randomIndex]);
-      setIsQuestionVisible(true);
+    if (!selectedCategory) return;
+
+    let categoryQuestions = remainingQuestions[selectedCategory];
+
+    // If we've used all questions, reset the pool
+    if (!categoryQuestions || categoryQuestions.length === 0) {
+      categoryQuestions = [...questions[selectedCategory]];
+      setRemainingQuestions((prev) => ({
+        ...prev,
+        [selectedCategory]: categoryQuestions,
+      }));
     }
+
+    // Get a random question from remaining ones
+    const randomIndex = Math.floor(Math.random() * categoryQuestions.length);
+    const selectedQuestion = categoryQuestions[randomIndex];
+
+    // Remove the selected question from the remaining pool
+    const updatedQuestions = [...categoryQuestions];
+    updatedQuestions.splice(randomIndex, 1);
+    setRemainingQuestions((prev) => ({
+      ...prev,
+      [selectedCategory]: updatedQuestions,
+    }));
+
+    setCurrentQuestion(selectedQuestion);
+    setIsQuestionVisible(true);
   };
 
   return (
@@ -74,8 +119,6 @@ export default function Dialog() {
           name="keywords"
           content="ice breaking questions, conversation starters, deep talks, love questions, friendship questions, life questions"
         />
-
-        {/* Open Graph */}
         <meta
           property="og:title"
           content="DIALOG - Conversation Starter Game | Peerspectives"
@@ -84,8 +127,6 @@ export default function Dialog() {
           property="og:description"
           content="Start meaningful conversations with friends through engaging questions!"
         />
-
-        {/* Twitter */}
         <meta
           property="twitter:title"
           content="DIALOG - Conversation Starter Game | Peerspectives"
@@ -97,7 +138,6 @@ export default function Dialog() {
       </Head>
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 py-12">
-          {/* Header */}
           <Link href="/">
             <div className="mb-12 w-16 mx-auto cursor-pointer">
               <Image
@@ -111,7 +151,6 @@ export default function Dialog() {
             </div>
           </Link>
 
-          {/* Title Section */}
           <div className="text-center mb-16">
             <Image
               className="mx-auto mb-6"
@@ -126,15 +165,12 @@ export default function Dialog() {
             </h1>
           </div>
 
-          {/* Category Selection */}
           <div className="max-w-md mx-auto mb-8">
             <div className="grid grid-cols-3 gap-4">
-              {Object.keys(questions).map((category) => (
+              {(Object.keys(questions) as CategoryType[]).map((category) => (
                 <button
                   key={category}
-                  onClick={() =>
-                    selectCategory(category as keyof typeof questions)
-                  }
+                  onClick={() => selectCategory(category)}
                   className={`py-3 px-4 rounded-xl text-lg font-light
                           transition-all duration-300 
                           ${
@@ -151,8 +187,7 @@ export default function Dialog() {
             </div>
           </div>
 
-          {/* Question Display */}
-          {isQuestionVisible && (
+          {/* {isQuestionVisible && (
             <div className="max-w-md mx-auto my-8 font-sans">
               <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
                 <p className="text-xl text-gray-700 text-center font-light">
@@ -160,9 +195,13 @@ export default function Dialog() {
                 </p>
               </div>
             </div>
-          )}
+          )} */}
 
-          {/* Generate Button */}
+          <QuestionCard
+            question={currentQuestion}
+            isVisible={isQuestionVisible}
+          />
+
           {selectedCategory && (
             <div className="max-w-md mx-auto font-sans">
               <button
@@ -173,7 +212,7 @@ export default function Dialog() {
                        transform hover:translate-y-[-2px] transition-all duration-300
                        shadow-sm hover:shadow-md"
               >
-                Generate Question
+                Question
               </button>
             </div>
           )}
