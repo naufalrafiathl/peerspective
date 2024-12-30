@@ -287,7 +287,7 @@ export default function Dialog() {
                     Bisik
                   </h4>
                   <p className="text-xs text-gray-500 group-hover:text-white">
-                    Secret question game with a twist
+                    Conversation game on peerspective
                   </p>
                 </div>
               </div>
