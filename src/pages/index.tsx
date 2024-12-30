@@ -2,14 +2,16 @@ import Link from "next/link";
 import Image from "next/image";
 import Head from "next/head";
 import GameCard from "@/components/GameCard";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const games = [
     {
       href: "/bisik",
+      bgColor: "#F4D35E",
       imageSrc: "/bisik.png",
       title: "bisik",
-      description: "Thrilling secret question game with a twist of mystery.",
+      description: "A thrilling secret question game with a twist of mystery!",
       howToPlay: [
         "Take turns with the device, see the secret question, and point to someone.",
         "Hide the question and flip the virtual coin.",
@@ -18,9 +20,10 @@ export default function Home() {
     },
     {
       href: "/dialog",
+      bgColor: "#C8A2D1",
       imageSrc: "/deeptalk.png",
       title: "dialog",
-      description: "Generate meaningful conversation starters for your group.",
+      description: "A Conversation game that brings peerspectives, together.",
       howToPlay: [
         "Pick a category (Love, Friendship, etc.).",
         "Everyone answers honestly or playfully.",
@@ -40,8 +43,7 @@ export default function Home() {
         {/* Keep your existing meta tags */}
       </Head>
       <div className="min-h-screen bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 py-16">
-          {/* Logo Section */}
+        <div className="flex pt-10 align-middle justify-center ">
           <div className="mb-16">
             <Image
               className="mx-auto transform hover:scale-105 transition-transform duration-300"
@@ -54,14 +56,20 @@ export default function Home() {
           </div>
 
           {/* Title Section */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-light text-gray-700 mb-4">
+          <div className="text-justify pl-4 mb-2">
+            <h1 className="text-4xl font-light text-[#000000] mb-0">
               Peerspective
             </h1>
-            <p className="text-gray-500 max-w-2xl mx-auto font-sans">
-              Where masks fall, stories rise{" "}
+            <p className="text-[#000000] max-w-2xl font-sans">
+              Fun & Meaningful Group Games
             </p>
           </div>
+        </div>
+        <p className="text-[#000000] text-md px-7 md:px-0 md:text-xl text-center font-sans ">
+          Where masks fall, stories rise. Let’s choose your game mode!
+        </p>
+        <div className="max-w-6xl mx-auto px-4 py-16">
+          {/* Logo Section */}
 
           {/* Cards Container - Replace the existing cards with the new GameCard component */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -69,20 +77,8 @@ export default function Home() {
               <GameCard key={game.href} {...game} />
             ))}
           </div>
-
-          {/* Footer Section */}
-          <div className="text-center mt-16 space-y-3">
-            <p className="text-gray-400 font-sans text-sm">RXLABS. 2024</p>
-            <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSfvtaDePJi5Tx6xL4oaqwQ7HR21HtEmasxDfD-RipVnqILwaA/viewform"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white px-4 py-2 rounded-lg text-gray-600 hover:text-gray-800 text-sm font-sans inline-block transition-all duration-200 border border-gray-200 hover:border-gray-300 hover:shadow-sm"
-            >
-              Share your feedback
-            </a>
-          </div>
         </div>
+        <Footer />
       </div>
     </>
   );
