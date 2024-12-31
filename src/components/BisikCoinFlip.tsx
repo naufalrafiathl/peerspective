@@ -43,7 +43,7 @@ const BisikCoinFlip = ({ isFlipping, coinResult }: CoinFlipProps) => {
       >
         <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#F4D35E] to-[#F4D35E]/70 border-4 border-[#F4D35E]/30 shadow-lg flex items-center justify-center">
           <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
-            <span className="text-lg text-white font-medium">SILENT</span>
+            <span className="text-lg text-black font-medium">SILENT</span>
           </div>
         </div>
       </div>
@@ -59,7 +59,7 @@ const BisikCoinFlip = ({ isFlipping, coinResult }: CoinFlipProps) => {
       >
         <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#F4D35E]/90 to-[#F4D35E]/60 border-4 border-[#F4D35E]/40 shadow-lg flex items-center justify-center">
           <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center">
-            <span className="text-lg text-white font-medium">WHISPER</span>
+            <span className="text-lg text-black font-medium">WHISPER</span>
           </div>
         </div>
       </div>

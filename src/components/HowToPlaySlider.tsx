@@ -72,7 +72,7 @@ const HowToPlaySlider = () => {
                     w-80`}
       >
         <div className="p-6 h-full overflow-y-auto">
-          <h2 className="text-2xl font-light text-white mb-8">How to Play</h2>
+          <h2 className="text-2xl font-light text-black mb-8">How to Play</h2>
 
           <div className="space-y-3">
             {steps.map((step, index) => (
@@ -83,15 +83,15 @@ const HowToPlaySlider = () => {
                 <div className="flex items-start gap-3">
                   <span
                     className="flex h-6 w-6 shrink-0 items-center justify-center 
-                         rounded-full bg-white/50 text-white font-medium text-sm"
+                         rounded-full bg-white/50 text-black font-medium text-sm"
                   >
                     {index + 1}
                   </span>
                   <div>
-                    <h3 className="font-medium text-white text-sm">
+                    <h3 className="font-medium text-black text-sm">
                       {step.title}
                     </h3>
-                    <p className="mt-1 text-sm text-white/80">
+                    <p className="mt-1 text-sm text-black/80">
                       {step.description}
                     </p>
                   </div>
@@ -101,10 +101,10 @@ const HowToPlaySlider = () => {
           </div>
 
           <div className="mt-8 p-4 bg-white/10 rounded-lg border border-white/20">
-            <p className="text-sm text-white ">
+            <p className="text-sm text-black ">
               Remember: This is your space to be real. Whether you're going deep
               or keeping it light, every{" "}
-              <span className="text-gray-500 font-medium">peerspective</span>{" "}
+              <span className="text-white font-medium">peerspectives</span>{" "}
               matters! The best conversations happen when we all feel free to be
               ourselves.
             </p>

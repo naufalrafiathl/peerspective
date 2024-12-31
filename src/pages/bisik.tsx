@@ -9,28 +9,33 @@ import Footer from "@/components/Footer";
 import BisikCard from "@/components/BisikCard";
 import ReactConfetti from "react-confetti";
 
-// Combined questions array
 const questions = [
-  "Who is the most beautiful person in the circle?",
-  "Who are you most attracted to in this group?",
-  "Who would you want to go on a date with?",
-  "Who would you trust with your secrets?",
-  "Who would you want as your best friend?",
+  "Who is the most beautiful person in this group?",
+  "Who are you most attracted to in this circle?",
+  "If you could go on a date with someone here, who would it be?",
+  "If you had to choose only one friend here to spend the rest of your life with, who would it be?",
+  "Who has the most enchanting eyes in this group?",
   "Who has the most captivating smile?",
-  "Who has a mysterious aura about them?",
-  "Who would you want to switch lives with for a day?",
-  "Who would you call at 3 AM in a crisis?",
-  "Who seems to hold the deepest secrets?",
-  "Who do you think has the most interesting life story?",
-  "Who radiates the most positive energy?",
-  "Who would you want as your travel companion?",
-  "Who seems like they give the best advice?",
-  "Who has the most intriguing personality?",
-  "Who's got the most tea about everyone's relationship histories?",
-  "Who here knows about that one wild night you pretend never happened?",
-  "Who's most likely to have dated one of our ex but never mentioned it?",
-  "Who would be the first to sell everyone's secrets for a good deal?",
-  // ... rest of your combined questions
+  "Who here has a mysterious aura about them?",
+  "If you could switch lives with someone here for a day, who would it be?",
+  "If you were stuck on a deserted island, who would be your last choice as a companion and why?",
+  "Who do you admire the most in this group?",
+  "Who is the person you'd least want to be in this room and why?",
+  "Who do you think would make the worst husband or wife in this group?",
+  "Who do you think is the biggest flirt here?",
+  "Who do you think has a crush on someone in this room but hasn't confessed yet?",
+  "Who do you think would be the first to sell everyone's secrets for a good deal?",
+  "Who in this room do you think has had the most awkward or cringeworthy date?",
+  "Who do you think is most likely to be the most successful in life?",
+  "Who here is closest to your ideal type?",
+  "If you could express all your honest feelings or sadness to one person here, who would it be?",
+  "If you were to have a child, who in this group would you want them to be like?",
+  "Who do you think is most likely to fall in love with you in this room?",
+  "Who here do you think has the best chance of breaking your heart?",
+  "If everyone had to reveal their search history, whose would be the most shocking?",
+  "Who do you think has lied to this group the most?",
+  "Who do you trust the most to never betray you?",
+  "If you could uncover one secret about someone's love life, who would it be?"
 ];
 
 function Bisik() {
@@ -217,7 +222,7 @@ function Bisik() {
 
                 <div className="text-justify pl-4 mb-2">
                   <h1 className="text-4xl font-light text-[#000000] mb-0">
-                    Peerspective
+                    Peerspectives
                   </h1>
                   <p className="text-[#000000] max-w-2xl font-sans">
                     Fun & Meaningful Group Games
@@ -255,7 +260,7 @@ function Bisik() {
                          transform hover:translate-y-[-2px] transition-all duration-300"
                 >
                   {gamePhase === "initial"
-                    ? "Next"
+                    ? "Start"
                     : gamePhase === "question"
                     ? "Close"
                     : "Play Again"}
@@ -300,36 +305,36 @@ function Bisik() {
             )}
           </div>
         </main>
-        <div className="fixed right-16 top-[10%] w-64 hidden xl:block">
-          <div className="bg-white rounded-lg p-4 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-            <h3 className="text-lg font-light mb-3 text-gray-800">
-              Play Our Other Game!
-            </h3>
-            <Link
-              href="/dialog"
-              className="block group hover:bg-[#C8A2D1] rounded-lg p-3 transition-all duration-300"
-            >
-              <div className="flex items-center">
-                <div className="w-12 h-12 relative mr-3">
-                  <Image
-                    src="/deeptalk.png"
-                    alt="Bisik game"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-                <div>
-                  <h4 className="text-lg font-light group-hover:text-white">
-                    DIALOG
-                  </h4>
-                  <p className="text-xs text-gray-500 group-hover:text-white">
-                    Secret question game with a twist
-                  </p>
-                </div>
-              </div>
-            </Link>
+        <div className="fixed right-16 top-[10%] w-80 hidden xl:block">
+      <div className="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+        <h3 className="text-xl font-light mb-4 text-gray-800">
+          Play Our Other Game!
+        </h3>
+        <Link
+          href="/dialog"
+          className="block group hover:bg-[#C8A2D1] rounded-lg p-4 transition-all duration-300"
+        >
+          <div className="flex items-center">
+            <div className="w-16 h-16 relative mr-4">
+              <Image
+                src="/deeptalk.png"
+                alt="Dialog game"
+                fill
+                className="object-contain"
+              />
+            </div>
+            <div>
+              <h4 className="text-xl font-light group-hover:text-white">
+                DIALOG
+              </h4>
+              <p className="text-sm text-gray-500 group-hover:text-white">
+                Conversation game on peerspectives
+              </p>
+            </div>
           </div>
-        </div>
+        </Link>
+      </div>
+    </div>
         <Footer />
       </div>
     </>

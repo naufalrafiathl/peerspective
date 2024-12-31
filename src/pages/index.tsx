@@ -58,7 +58,7 @@ export default function Home() {
           {/* Title Section */}
           <div className="text-justify pl-4 mb-2">
             <h1 className="text-4xl font-light text-[#000000] mb-0">
-              Peerspective
+              Peerspectives
             </h1>
             <p className="text-[#000000] max-w-2xl font-sans">
               Fun & Meaningful Group Games
