@@ -16,22 +16,22 @@ const HowToPlaySlider = () => {
 
   const steps = [
     {
-      title: "Step 1: Pick Your Mood",
+      title: "SPick Your Mood",
       description:
         "Love, friendship, or life's big questions - choose what speaks to you right now. No pressure! ",
     },
     {
-      title: "Step 2: Get Inspired",
+      title: "Get Inspired",
       description:
         "Hit the button for a question that might make you laugh, think, or both! ",
     },
     {
-      title: "Step 3: Share Your Story",
+      title: "Share Your Story",
       description:
         "Open up, get real, and listen. The best convos happen when we're just being ourselves. ",
     },
     {
-      title: "Step 4: Go With The Flow",
+      title: "Go With The Flow",
       description:
         "When it feels right, grab another question. Some of the best talks start with a simple question! ",
     },
