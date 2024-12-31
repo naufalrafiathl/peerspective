@@ -44,7 +44,7 @@ const GameCard: FC<GameCardProps> = ({
           {title}
         </h2>
         <p 
-          className="text-sm text-center font-sans text-gray-500 whitespace-nowrap transition-colors duration-300 group-hover:text-white"
+          className="text-sm text-center mx-8 font-sans text-gray-500 whitespace-normal md:whitespace-nowrap transition-colors duration-300 group-hover:text-white"
         >
           {description}
         </p>

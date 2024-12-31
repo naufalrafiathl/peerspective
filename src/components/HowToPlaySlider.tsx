@@ -16,7 +16,7 @@ const HowToPlaySlider = () => {
 
   const steps = [
     {
-      title: "SPick Your Mood",
+      title: "Pick Your Mood",
       description:
         "Love, friendship, or life's big questions - choose what speaks to you right now. No pressure! ",
     },
